@@ -114,7 +114,18 @@ final class MatrixUtilTests: XCTestCase {
         XCTAssert(matrix[oneIndexed: 2] == 2, "Expected 2, got \(matrix[oneIndexed: 2])")
         XCTAssert(matrix[oneIndexed: 2, 1] == 2, "Expected 2, got \(matrix[oneIndexed: 2, 1])")
         XCTAssert(matrix[oneIndexed: PointIndex(x: 2, y: 1)] == 2, "Expected 2, got \(PointIndex(x: 2, y: 1))")
+        var matrix2 = matrix
+        matrix2[oneIndexed: 1, 1] = 0
+        XCTAssert(matrix2[oneIndexed: 1, 1] == 0)
+        XCTAssert(matrix2[0, 0] == 0)
 
+        matrix2[oneIndexed: 2] = 15
+        XCTAssert(matrix2[1] == 15)
+        XCTAssert(matrix2[oneIndexed: 2] == 15)
+
+        matrix2[oneIndexed: PointIndex(x: 2, y: 2)] = 25
+        XCTAssert(matrix2[oneIndexed: PointIndex(x: 2, y: 2)] == 25)
+        XCTAssert(matrix2[1, 1] == 25)
     }
 
     func testRandom() throws {

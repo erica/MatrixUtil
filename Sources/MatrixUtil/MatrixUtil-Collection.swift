@@ -26,25 +26,28 @@ extension Matrix {
     /// back to startX at the end of each row. The iteration continues until the
     /// max position is reached.
     ///
-    /// For example:
+    /// For example, printing out the values of a `Matrix` with balanced 2 digit
+    /// cell extents:
     ///
+    ///    ```
     ///    let width = 4
     ///    let matrix = Matrix(width: width, array: Array(1 ... 12))
     ///    matrix.forEach(fromX: 1, y: 0) { x, _, value in
     ///        if value < 10 { print(" ", terminator: "")}
-    ///        if value < 100 { print(" ", terminator: "")}
     ///        print(value, terminator: "")
     ///        if x == matrix.width - 1 { print() }
     ///    }
+    ///    ```
     ///
-    ///    - Parameter startX: the zero-indexed starting position along the x axis (columns) of the matrix
-    ///    - Parameter startY: the zero-indexed starting position along the y axis (rows) of the matrix
-    ///    - Parameter action: a closure to apply at each point
-    ///             - x: the current zero-indexed x position
-    ///             - y: the current zero-indexed y position
-    ///             - value: the current value at `self[x, y]`
+    /// - Parameters:
+    ///   - startX: the zero-indexed starting position along the x axis (columns) of the matrix.
+    ///   - startY: the zero-indexed starting position along the y axis (rows) of the matrix.
+    ///   - action: a closure to apply at each point.
+    ///     - x: the current zero-indexed x position
+    ///     - y: the current zero-indexed y position
+    ///     - value: the current value at `self[x, y]`
     ///
-    ///    - Warning: No bounds checks are made for index correctness.
+    /// - Warning: No bounds checks are made for index correctness.
     public func forEach(fromX startX: Int = 0, y startY: Int = 0, _ action: (_ x: Int, _ y: Int, _ value: Element) -> Void) {
         for (y, x) in CartesianSequence(startY ..< height, startX ..< width) {
             action(x, y, self[x, y])

@@ -1,14 +1,20 @@
 import Foundation
 
 extension Matrix {
-    /// Edge neighbors do not include diagonals
+    /// Returns the indices of the available grid cells surrounding a given point along its edges.
+    ///
+    /// Indices of elements falling outside the `Matrix` grid are omitted.
+    ///
+    /// - Note: Edge neighbors do not include diagonals
     public func edgeNeighbors(ofX x: Int, y: Int) -> [PointIndex] {
         [PointIndex(x: x - 1, y: y), PointIndex(x: x + 1, y: y), PointIndex(x: x, y: y - 1), PointIndex(x: x, y: y + 1)]
             .filter({ point in
                 point.x >= 0 && point.y >= 0 && point.x < width && point.y < height })
     }
 
-    /// Neighbors around a matrix point
+    /// Returns all the indices of the available grid cells surrounding a given point.
+    ///
+    /// Indices of elements falling outside the `Matrix` grid are omitted.
     public func neighbors(ofX x: Int, y: Int) -> [PointIndex] {
         var results: [PointIndex] = []
         for xOffset in -1 ... 1 {
