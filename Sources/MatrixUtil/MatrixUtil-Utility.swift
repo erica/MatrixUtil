@@ -12,6 +12,15 @@ extension Matrix {
                 point.x >= 0 && point.y >= 0 && point.x < width && point.y < height })
     }
 
+    /// Returns the indices of the diagonal grid cells surrounding a given point along its edges.
+    ///
+    /// Indices of elements falling outside the `Matrix` grid are omitted.
+    public func cornerNeighbors(ofX x: Int, y: Int) -> [PointIndex] {
+        [PointIndex(x: x - 1, y: y - 1), PointIndex(x: x + 1, y: y + 1), PointIndex(x: x + 1, y: y - 1), PointIndex(x: x - 1, y: y + 1)]
+            .filter({ point in
+                point.x >= 0 && point.y >= 0 && point.x < width && point.y < height })
+    }
+
     /// Returns all the indices of the available grid cells surrounding a given point.
     ///
     /// Indices of elements falling outside the `Matrix` grid are omitted.
@@ -46,9 +55,17 @@ extension Matrix {
     }
 
     /// Copy the values in the source `matrix` from (x, y) to a new `Matrix` instance
-    public func subMatrixFrom(x: Int, y: Int) -> Matrix {
+    public func subMatrixFrom(_ start: PointIndex, to end: PointIndex = PointIndex(x: .max, y: .max)) -> Matrix {
+        let end = PointIndex(x: Swift.min(end.x, width - 1), y: Swift.min(end.y, height - 1))
         var values: [Element] = []
-        self.forEach(fromX: x, y: y) { _, _, value in values.append(value) }
-        return Matrix(width: width - x, array: values)
+        forEach(from: start, to: end) {_, _, value in values.append(value) }
+        return Matrix(width: 1 + end.x - start.x, array: values)
+    }
+}
+
+extension Matrix {
+    /// Returns a Matrix  of strings describing each element
+    public func stringified() -> Matrix<String> {
+        Matrix<String>(width: width, array: backingArray.map({ (element: Element) -> String in  "\(element)" }))
     }
 }
